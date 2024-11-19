@@ -1,0 +1,36 @@
+<p>给你一个未排序的整数数组 <code>nums</code> ，请你找出其中没有出现的最小的正整数。</p> 请你实现时间复杂度为 
+<code>O(n)</code> 并且只使用常数级别额外空间的解决方案。
+
+<p>&nbsp;</p>
+
+<p><strong>示例 1：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [1,2,0]
+<strong>输出：</strong>3
+</pre>
+
+<p><strong>示例 2：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [3,4,-1,1]
+<strong>输出：</strong>2
+</pre>
+
+<p><strong>示例 3：</strong></p>
+
+<pre>
+<strong>输入：</strong>nums = [7,8,9,11,12]
+<strong>输出：</strong>1
+</pre>
+
+<p>&nbsp;</p>
+
+<p><strong>提示：</strong></p>
+
+<ul> 
+ <li><code>1 &lt;= nums.length &lt;= 5 * 10<sup>5</sup></code></li> 
+ <li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li> 
+</ul>
+
+<div><div>Related Topics</div><div><li>数组</li><li>哈希表</li></div></div><br><div><li>👍 2032</li><li>👎 0</li></div>
