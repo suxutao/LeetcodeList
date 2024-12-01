@@ -5,70 +5,34 @@ using namespace std;
 class Solution {
 public:
     vector<vector<string>>vvs;
-    vector<string>vs;
-    bool jianyan(int pos,int n){
-        int row=pos/n,col=pos%n;
-        for (int i = 0; i < n; ++i) {
-            if (i==row)
-                continue;
-            if (vs[i][col]=='Q')
-                return false;
-        }
-        for (int i = 0; i < n; ++i) {
-            if (i==col)
-                continue;
-            if (vs[row][i]=='Q')
-                return false;
-        }
-        for (int i = 1; row+i<n&&col+i<n; ++i) {
-            if (vs[row+i][col+i]=='Q')
-                return false;
-        }
-        for (int i = 1; row-i>=0&&col-i>=0; ++i) {
-            if (vs[row-i][col-i]=='Q')
-                return false;
-        }
-        for (int i = 1; row+i<n&&col-i>=0; ++i) {
-            if (vs[row+i][col-i]=='Q')
-                return false;
-        }
-        for (int i = 1; row-i>=0&&col+i<n; ++i) {
-            if (vs[row-i][col+i]=='Q')
-                return false;
-        }
-        return true;
-    }
-    void hui(int pos,int n,int count){
-        if (pos>=n*n&&count==n) {
-            vvs.push_back(vs);
-            return;
-        }else if (pos>=n*n){
-            return;
-        }
-        for (int i = pos; i < n * n; ++i) {
-            while(i<n*n&&!jianyan(i,n))
-                i++;
-            if (i==n*n){
-                if (count==n){
-                    vvs.push_back(vs);
-                }
-                return;
+    vector<int>row,col,dia1,dia2;
+    int n;
+    void dfs(int pos){
+        if (pos==n){
+            vector<string>vs(n,string(n,'.'));
+            for (int i = 0; i < n; ++i) {
+                vs[i][row[i]]='Q';
             }
-            int row=i/n,col=i%n;
-            vs[row][col]='Q';
-            hui(i+1,n,count+1);
-            vs[row][col]='.';
+            vvs.push_back(vs);
+        }
+        for (int i = 0; i < n; ++i) {
+            if (!col[i]&&!dia1[i+pos]&&!dia2[i-pos+n]){
+                row[pos]=i;
+                col[i]=dia1[i+pos]=dia2[i-pos+n]=1;
+                dfs(pos+1);
+                col[i]=dia1[i+pos]=dia2[i-pos+n]=0;
+            }
         }
     }
     vector<vector<string>> solveNQueens(int n) {
         if (n==1)
             return {{"Q"}};
-        string s;
-        for (int i = 0; i < n; ++i) {
-            s+=".";
-        }
-        vs.assign(n,s);
-        hui(0,n,0);
+        this->n=n;
+        row.resize(n);
+        col.resize(n);
+        dia1.resize(n<<1|1);
+        dia2.resize(n<<1|1);
+        dfs(0);
         return vvs;
     }
 };
