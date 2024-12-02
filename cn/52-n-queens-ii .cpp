@@ -4,72 +4,30 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    vector<vector<string>>vvs;
-    vector<string>vs;
-    bool jianyan(int pos,int n){
-        int row=pos/n,col=pos%n;
-        for (int i = 0; i < n; ++i) {
-            if (i==row)
-                continue;
-            if (vs[i][col]=='Q')
-                return false;
-        }
-        for (int i = 0; i < n; ++i) {
-            if (i==col)
-                continue;
-            if (vs[row][i]=='Q')
-                return false;
-        }
-        for (int i = 1; row+i<n&&col+i<n; ++i) {
-            if (vs[row+i][col+i]=='Q')
-                return false;
-        }
-        for (int i = 1; row-i>=0&&col-i>=0; ++i) {
-            if (vs[row-i][col-i]=='Q')
-                return false;
-        }
-        for (int i = 1; row+i<n&&col-i>=0; ++i) {
-            if (vs[row+i][col-i]=='Q')
-                return false;
-        }
-        for (int i = 1; row-i>=0&&col+i<n; ++i) {
-            if (vs[row-i][col+i]=='Q')
-                return false;
-        }
-        return true;
-    }
-    void hui(int pos,int n,int count){
-        if (pos>=n*n&&count==n) {
-            vvs.push_back(vs);
-            return;
-        }else if (pos>=n*n){
+    int n,cnt=0;
+    vector<int>col,dig1,dig2;
+    void dfs(int pos){
+        if (pos==n){
+            cnt++;
             return;
         }
-        for (int i = pos; i < n * n; ++i) {
-            while(i<n*n&&!jianyan(i,n))
-                i++;
-            if (i==n*n){
-                if (count==n){
-                    vvs.push_back(vs);
-                }
-                return;
+        for (int i = 0; i < n; ++i) {
+            if (!col[i]&&!dig1[i+pos]&&!dig2[i-pos+n]){
+                col[i]=dig1[i+pos]=dig2[i-pos+n]=1;
+                dfs(pos+1);
+                col[i]=dig1[i+pos]=dig2[i-pos+n]=0;
             }
-            int row=i/n,col=i%n;
-            vs[row][col]='Q';
-            hui(i+1,n,count+1);
-            vs[row][col]='.';
         }
     }
     int totalNQueens(int n) {
         if (n==1)
             return 1;
-        string s;
-        for (int i = 0; i < n; ++i) {
-            s+=".";
-        }
-        vs.assign(n,s);
-        hui(0,n,0);
-        return vvs.size();
+        this->n=n;
+        col.resize(n);
+        dig1.resize(n*2+1);
+        dig2.resize(n*2+1);
+        dfs(0);
+        return cnt;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
