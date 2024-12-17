@@ -5,17 +5,12 @@ using namespace std;
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        if (nums.size()==1)
-            return 0;
-        int ans=0,fanwei=0,future=0;
-        for (int i = 0; i < nums.size(); ++i) {
-            fanwei= max(fanwei,i+nums[i]);
-            if (i==future){
+        int ans=0,end=0,bound=0,n=nums.size();
+        for (int i = 0; i < n-1; ++i) {
+            bound= max(bound,i+nums[i]);
+            if (end==i){
+                end=bound;
                 ans++;
-                fanwei= max(fanwei,i+nums[i]);
-                future=fanwei;
-                if (fanwei>=nums.size()-1)
-                    break;
             }
         }
         return ans;
