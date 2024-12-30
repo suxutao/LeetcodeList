@@ -25,51 +25,19 @@ using namespace std;
  */
 class Solution {
 public:
-    vector<int>v;
-    unordered_map<TreeNode*,int>m;
-    bool dfs(TreeNode*p,int pos){
-        bool f= false;
-        if (p->val==v[pos]&&m[p]>=v.size()-pos){
-            if (pos==v.size()-1)
-                return true;
-            if (p->left)
-                f|=dfs(p->left,pos+1,1);
-            if (p->right)
-                f|=dfs(p->right,pos+1,1);
-            if (f) return true;
-        }
-        if (m[p]>=v.size()){
-            if (p->left)
-                f|=dfs(p->left,0);
-            if (p->right)
-                f|=dfs(p->right,0);
-        }
-        return f;
-    }
-    bool dfs(TreeNode*p,int pos,bool){
-        bool f= false;
-        if (p->val==v[pos]&&m[p]>=v.size()-pos){
-            if (pos==v.size()-1)
-                return true;
-            if (p->left)
-                f|=dfs(p->left,pos+1,1);
-            if (p->right)
-                f|=dfs(p->right,pos+1,1);
-        }
-        return f;
-    }
-    int dfs(TreeNode*p){
-        if (!p) return 0;
-        if (!p->left&&!p->right) return m[p]=1;
-        return m[p]=max(dfs(p->left), dfs(p->right))+1;
+    bool dfs(ListNode*l,TreeNode*p){
+        if (!l)
+            return true;
+        if (!p)
+            return false;
+        if (l->val!=p->val)
+            return false;
+        return dfs(l->next,p->left)||dfs(l->next,p->right);
     }
     bool isSubPath(ListNode* head, TreeNode* root) {
-        while (head){
-            v.push_back(head->val);
-            head=head->next;
-        }
-        dfs(root);
-        return dfs(root,0);
+        if (!root)
+            return false;
+        return dfs(head,root)|| isSubPath(head,root->left)|| isSubPath(head,root->right);
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
