@@ -11,7 +11,7 @@ public:
     
     bool book(int start, int end) {
         auto a=s.lower_bound({end,0});
-        if (a==s.begin()||(--a)->second<=start){
+        if (a==s.begin()||prev(a)->second<=start){
             s.insert({start,end});
             return true;
         }
