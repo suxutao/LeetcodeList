@@ -11,8 +11,7 @@ public:
     
     bool book(int start, int end) {
         int sum=0;
-        ++m[start];
-        --m[end];
+        ++m[start];--m[end];
         for (auto &[a,b]: m){
             sum+=b;
             if (sum>2){
