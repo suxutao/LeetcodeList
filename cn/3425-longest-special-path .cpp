@@ -13,7 +13,6 @@ public:
             g[edge[0]].push_back({edge[1],edge[2]});
             g[edge[1]].push_back({edge[0],edge[2]});
         }
-
         auto dfs=[&](auto&&dfs,int u,int fa,int top_depth)->void{
             int color=nums[u],old_depth=last_depth[color];
             top_depth= max(top_depth,old_depth);
