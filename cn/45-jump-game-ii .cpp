@@ -5,13 +5,14 @@ using namespace std;
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        int ans=0,end=0,bound=0,n=nums.size();
-        for (int i = 0; i < n-1; ++i) {
-            bound= max(bound,i+nums[i]);
-            if (end==i){
-                end=bound;
-                ans++;
+        int n=nums.size(),end=0,ans=0,pre=0;
+        while (end<n-1){
+            int temp=end;
+            for (int i = pre; i <= temp; ++i) {
+                end= max(end,i+nums[i]);
             }
+            pre=temp+1;
+            ++ans;
         }
         return ans;
     }
