@@ -5,15 +5,12 @@ using namespace std;
 class Solution {
 public:
     string reverseStr(string s, int k) {
-        int a=s.length()/(2*k);
-        int b=s.length()%(2*k);
-        for (int i = 0; i < a; ++i) {
-            reverse(s.begin()+i*k*2,s.begin()+i*k*2+k);
+        int n=s.size(),i;
+        for (i = 0; i+k <= n; i+=k*2) {
+            reverse(s.begin()+i, s.begin()+i+k);
         }
-        if (b<k){
-            reverse(s.rbegin(),s.rbegin()+b);
-        }else{
-            reverse(s.rbegin()+b-k,s.rbegin()+b);
+        if (n-i<k){
+            reverse(s.begin()+i, s.end());
         }
         return s;
     }
@@ -22,6 +19,6 @@ public:
 
 
 int main(){
-    
+
     return 0;
 }
