@@ -4,31 +4,29 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    vector<vector<int>>vv;
+    bool vis[10]{};
     vector<int>v;
-    vector<bool>b;
-    void hui(vector<int>& nums){
-        if (v.size()==nums.size()){
+    vector<vector<int>>vv;
+    void hui(vector<int>&nums){
+        int n=nums.size();
+        if (v.size()==n){
             vv.push_back(v);
             return;
         }
-        for (int i = 0; i < nums.size(); ++i) {
-            if (i>0&&nums[i]==nums[i-1]&&b[i-1])
-                continue;
-            if (!b[i]){
+        for (int i = 0; i < n; ++i) {
+            if (!vis[i]){
+                if (i&&nums[i]==nums[i-1]&&!vis[i-1])
+                    continue;
+                vis[i]=1;
                 v.push_back(nums[i]);
-                b[i]=true;
                 hui(nums);
-                b[i]= false;
                 v.pop_back();
+                vis[i]=0;
             }
         }
     }
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        if (nums.size()==1)
-            return {{nums[0]}};
-        b.assign(nums.size(), false);
-        sort(nums.begin(),nums.end());
+        ranges::sort(nums);
         hui(nums);
         return vv;
     }
