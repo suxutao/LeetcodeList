@@ -5,20 +5,26 @@ using namespace std;
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
-        if (nums.size()==1||nums.size()==2)
-            return nums.size();
-        int repeat=1,slow=1,fast=1;
-        while(fast<nums.size()){
+        int n=nums.size(),fast=1,slow=0,cnt=1;
+        while (fast<n){
             if (nums[fast]==nums[fast-1]){
-                if (repeat<2)
-                    nums[slow++]=nums[fast++];
-                else
-                    fast++;
-                repeat++;
+                ++cnt;
             }else{
-                nums[slow++]=nums[fast++];
-                repeat=1;
+                if (cnt>=2){
+                    nums[slow++]=nums[fast-1];
+                    nums[slow++]=nums[fast-1];
+                }else{
+                    nums[slow++]=nums[fast-1];
+                }
+                cnt=1;
             }
+            ++fast;
+        }
+        if (cnt>=2){
+            nums[slow++]=nums[fast-1];
+            nums[slow++]=nums[fast-1];
+        }else{
+            nums[slow++]=nums[fast-1];
         }
         return slow;
     }
