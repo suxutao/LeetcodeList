@@ -2,34 +2,66 @@
 using namespace std;
 
 //leetcode submit region begin(Prohibit modification and deletion)
+struct Node{
+    int key,value;
+    Node* pre,*next;
+    Node(){}
+    Node(int k,int v):key(k),value(v){}
+};
 class LRUCache {
+    int capacity;
+    Node*dum;
+    unordered_map<int,Node*>key_to_node;
+
+    void remove(Node*p){
+        p->pre->next=p->next;
+        p->next->pre=p->pre;
+    }
+
+    void push_front(Node*p){
+        p->pre=dum;
+        p->next=dum->next;
+        dum->next=p;
+        p->next->pre=p;
+    }
+
+    Node* get_node(int key){
+        if (!key_to_node.contains(key)){
+            return nullptr;
+        }
+        Node*node=key_to_node[key];
+        remove(node);
+        push_front(node);
+        return node;
+    }
 public:
-    int capacity,time=1;
-    unordered_map<int,pair<int,int>>m;
-    priority_queue<array<int,3>>q;
 
     LRUCache(int capacity) {
         this->capacity=capacity;
+        dum=new Node();
+        dum->pre=dum;
+        dum->next=dum;
     }
 
     int get(int key) {
-        if (!m.contains(key)){
-            return -1;
-        }
-        m[key].second=-time;
-        q.push({-time++, key, m[key].first});
-        return m[key].first;
+        Node*node= get_node(key);
+        return node?node->value:-1;
     }
 
     void put(int key, int value) {
-        m[key].first=value;
-        m[key].second=-time;
-        q.push({-time++, key, value});
-        if (m.size()>capacity){
-            while (!m.contains(q.top()[1])||m[q.top()[1]].first!=q.top()[2]||m[q.top()[1]].second!=q.top()[0])
-                q.pop();
-            m.erase(q.top()[1]);
-            q.pop();
+        Node* node= get_node(key);
+        if (node){
+            node->value=value;
+            return;
+        }
+        key_to_node[key]=node=new Node(key,value);
+        push_front(node);
+
+        if (key_to_node.size()>capacity){
+            Node*back=dum->pre;
+            key_to_node.erase(back->key);
+            remove(back);
+            delete back;
         }
     }
 };
