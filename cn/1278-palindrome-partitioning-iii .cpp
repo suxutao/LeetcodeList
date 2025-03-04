@@ -15,12 +15,12 @@ public:
         }
         dp[0][0]=0;
         for (int i = 1; i <= n; ++i) {
-            for (int j = 1; j <= min(i,k); ++j) {
+            for (int j = 1; j <= min(i, k); ++j) {
                 if (j==1){
-                    dp[i][j]=cost[0][i-1];
+                    dp[i][1]=cost[0][i-1];
                 }else{
-                    for (int l = j-1; l < i; ++l) {
-                        dp[i][j]= min(dp[i][j],dp[l][j-1]+cost[l][i-1]);
+                    for (int m = j-1; m < i; ++m) {
+                        dp[i][j]= min(dp[i][j],dp[m][j-1]+cost[m][i-1]);
                     }
                 }
             }
