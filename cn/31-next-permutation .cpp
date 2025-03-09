@@ -5,20 +5,24 @@ using namespace std;
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
-        if (nums.size()==1)
-            return;
-        int a = nums.size() - 2;
-        while (a >= 0 && nums[a] >= nums[a + 1]) {
-            a--;
-        }
-        if (a >= 0) {
-            int b = nums.size() - 1;
-            while (b >= 0 && nums[a] >= nums[b]) {
-                b--;
+        int n=nums.size(),pos=-1;
+        for (int i = n - 2; i >= 0; --i) {
+            if (nums[i]<nums[i+1]){
+                pos=i;
+                break;
             }
-            swap(nums[a], nums[b]);
         }
-        reverse(nums.begin() + a + 1, nums.end());
+        if (pos==-1){
+            reverse(nums.begin(), nums.end());
+            return;
+        }
+        for (int i = n - 1; i >= 0; --i) {
+            if (nums[i]>nums[pos]){
+                swap(nums[i],nums[pos]);
+                break;
+            }
+        }
+        reverse(nums.begin()+pos+1, nums.end());
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
