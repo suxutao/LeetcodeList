@@ -12,8 +12,10 @@ public:
             G[i[1]].push_back(i[0]);
         }
         for (int i = 0; i < n; ++i) {
-            queue<pair<int,int>>q;q.emplace(i,-1);
-            vector<int>v(n,-1);v[i]=0;
+            queue<pair<int,int>>q;
+            q.emplace(i,-1);
+            vector<int>v(n,-1);
+            v[i]=0;
             while (!q.empty()){
                 int sz=q.size();
                 for (int j = 0; j < sz; ++j) {
