@@ -5,20 +5,15 @@ using namespace std;
 class Solution {
 public:
     int longestSubarray(vector<int>& nums) {
-        int MAX=0,ans=1,temp;
-        for (int i = 0; i < nums.size(); ++i) {
-            if (nums[i]>MAX){
-                ans=1;
-                MAX=nums[i];
-                temp=1;
-            }else if (nums[i]==MAX){
-                ++temp;
+        int mx=ranges::max(nums),ans=1,cnt=nums[0]==mx;
+        for (int i = 1; i < nums.size(); ++i) {
+            if (nums[i]==mx){
+                cnt++;
+                ans= max(ans,cnt);
             }else{
-                temp=0;
+                cnt=0;
             }
-            ans= max(ans,temp);
         }
-        ans= max(ans,temp);
         return ans;
     }
 };
