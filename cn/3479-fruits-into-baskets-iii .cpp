@@ -4,46 +4,39 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class SegmentTree {
     vector<int> mx;
-
-    void maintain(int o) {
-        mx[o] = max(mx[o * 2], mx[o * 2 + 1]);
+    void maintain(int u){
+        mx[u]=max(mx[u<<1],mx[u<<1|1]);
     }
-
-    // 初始化线段树
-    void build(const vector<int>& a, int o, int l, int r) {
-        if (l == r) {
-            mx[o] = a[l];
+    void build(vector<int>&v,int u,int l,int r){
+        if (l==r){
+            mx[u]=v[l];
             return;
         }
-        int m = (l + r) / 2;
-        build(a, o * 2, l, m);
-        build(a, o * 2 + 1, m + 1, r);
-        maintain(o);
+        int mid=(l+r)>>1;
+        build(v,u<<1,l,mid);
+        build(v,u<<1|1,mid+1,r);
+        maintain(u);
     }
-
 public:
-    SegmentTree(const vector<int>& a) {
-        size_t n = a.size();
-        mx.resize(2 << bit_width(n - 1));
-        build(a, 1, 0, n - 1);
+    SegmentTree(vector<int>&v){
+        mx.resize(2<<bit_width(v.size()));
+        build(v,1,0,v.size()-1);
     }
-
-    // 找区间内的第一个 >= x 的数，并更新为 -1，返回这个数的下标（没有则返回 -1）
-    int findFirstAndUpdate(int o, int l, int r, int x) {
-        if (mx[o] < x) { // 区间没有 >= x 的数
+    int find(int u,int l,int r,int x){
+        if (mx[u]<x){
             return -1;
         }
-        if (l == r) {
-            mx[o] = -1; // 更新为 -1，表示不能放水果
+        if (l==r){
+            mx[u]=-1;
             return l;
         }
-        int m = (l + r) / 2;
-        int i = findFirstAndUpdate(o * 2, l, m, x); // 先递归左子树
-        if (i < 0) { // 左子树没找到
-            i = findFirstAndUpdate(o * 2 + 1, m + 1, r, x); // 再递归右子树
+        int mid=(l+r)>>1;
+        int t= find(u<<1,l,mid,x);
+        if (t==-1){
+            t= find(u<<1|1,mid+1,r,x);
         }
-        maintain(o);
-        return i;
+        maintain(u);
+        return t;
     }
 };
 
@@ -53,7 +46,7 @@ public:
         SegmentTree t(baskets);
         int n = baskets.size(), ans = 0;
         for (int x : fruits) {
-            if (t.findFirstAndUpdate(1, 0, n - 1, x) < 0) {
+            if (t.find(1, 0, n-1, x) < 0) {
                 ans++;
             }
         }
