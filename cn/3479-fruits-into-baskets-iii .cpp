@@ -9,7 +9,7 @@ class SegmentTree {
     }
     void build(vector<int>&v,int u,int l,int r){
         if (l==r){
-            mx[u]=v[l];
+            mx[u]=v[l-1];
             return;
         }
         int mid=(l+r)>>1;
@@ -20,7 +20,7 @@ class SegmentTree {
 public:
     SegmentTree(vector<int>&v){
         mx.resize(2<<bit_width(v.size()));
-        build(v,1,0,v.size()-1);
+        build(v,1,1,v.size());
     }
     int find(int u,int l,int r,int x){
         if (mx[u]<x){
@@ -46,7 +46,7 @@ public:
         SegmentTree t(baskets);
         int n = baskets.size(), ans = 0;
         for (int x : fruits) {
-            if (t.find(1, 0, n-1, x) < 0) {
+            if (t.find(1, 1, n, x) < 0) {
                 ans++;
             }
         }
