@@ -4,6 +4,7 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
+    int fin=80;
     bool jianyan(char c,vector<vector<char>>& board,int n){
         int row=n/9,col=n%9;
         for (int i = 0; i < 9; ++i) {
@@ -23,15 +24,15 @@ public:
         }
         return true;
     }
-    bool hui(vector<vector<char>>& board,int n,int finish){
-        if (n>finish)
+    bool hui(vector<vector<char>>& board,int n){
+        if (n>fin)
             return true;
         while(board[n/9][n%9]!='.') n++;
         int row=n/9,col=n%9;
         for (char j = '1'; j <= '9'; ++j) {
             if (jianyan(j,board,n)){
                 board[row][col]=j;
-                if(hui(board,n+1,finish))
+                if(hui(board,n+1))
                     return true;
                 board[row][col]='.';
             }
@@ -39,14 +40,13 @@ public:
         return false;
     }
     void solveSudoku(vector<vector<char>>& board) {
-        int finish;
         for (int i = 80; i >= 0; --i) {
             if (board[i/9][i%9]=='.'){
-                finish=i;
+                fin=i;
                 break;
             }
         }
-        hui(board,0,finish);
+        hui(board,0);
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
