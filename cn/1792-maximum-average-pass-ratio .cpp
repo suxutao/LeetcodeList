@@ -4,31 +4,31 @@ using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 public:
-    using pii = pair<double, double>;
-    struct com{
-        bool operator()(const pii&a,const pii&b){
-            double A=(a.first+1)/(a.second+1)-a.first/a.second;
-            double B=(b.first+1)/(b.second+1)-b.first/b.second;
-            return A<B;
-        }
-    };
+    using ad = array<double, 2>;
     double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
-        priority_queue<pii,vector<pii>,com>q;
+        struct com{
+            bool operator()(ad&a,ad&b){
+                double A=(a[0]+1)/(a[1]+1)-a[0]/a[1];
+                double B=(b[0]+1)/(b[1]+1)-b[0]/b[1];
+                return A<B;
+            }
+        };
+        int n=classes.size();
         double ans=0;
-        for (auto & classe : classes) {
-            q.emplace(classe[0],classe[1]);
+        priority_queue<ad,vector<ad>,com>q;
+        for (int i = 0; i < n; ++i) {
+            q.push({(double)classes[i][0],(double)classes[i][1]});
         }
         for (int i = 0; i < extraStudents; ++i) {
-            auto[a,b]=q.top();
+            auto [x,y]=q.top();
             q.pop();
-            q.push({a+1,b+1});
+            q.push({x+1,y+1});
         }
         while (!q.empty()){
-            auto[a,b]=q.top();
-            ans+=a/b;
+            ans+=q.top()[0]/q.top()[1];
             q.pop();
         }
-        return ans/classes.size();
+        return ans/n;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
