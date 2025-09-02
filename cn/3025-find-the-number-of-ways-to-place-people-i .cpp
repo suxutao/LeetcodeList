@@ -6,22 +6,24 @@ class Solution {
 public:
     int numberOfPairs(vector<vector<int>>& points) {
         int n=points.size(),ans=0;
-        std::sort(points.begin(), points.end(),[&](auto&a,auto&b){
+        ranges::sort(points,[&](auto&a,auto&b){
             if (a[0]==b[0])
-                return a[1]>b[1];
-            return a[0]<b[0];
+                return a[1]<b[1];
+            return a[0]>b[0];
         });
-        for (int i = 0; i < n; ++i) {
-            for (int j = i+1; j < n; ++j) {
-                if (points[i][1]>=points[j][1]){
-                    bool b=true;
-                    for (int k = i+1; k < j; ++k) {
-                        if (points[i][1]>=points[k][1]&&points[j][1]<=points[k][1]){
-                            b= false;
-                        }
-                    }
-                    if (b)
-                        ++ans;
+        for (int i = 0; i < n - 1; ++i) {
+            int r=0,j;
+            for (j = i+1; j < n; ++j) {
+                if (points[j][1]>=points[i][1]){
+                    r=points[j][1];
+                    ans++;
+                    break;
+                }
+            }
+            for (; j < n; ++j) {
+                if (points[j][1]<r&&points[j][1]>=points[i][1]){
+                    r=points[j][1];
+                    ans++;
                 }
             }
         }
