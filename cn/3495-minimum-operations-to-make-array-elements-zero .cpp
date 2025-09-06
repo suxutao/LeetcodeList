@@ -8,7 +8,7 @@ public:
     ll sum(ll x){
         ll ans=0,chen=1;
         for (ll i = 1; i <= x; i<<=2,chen++) {
-            ll cnt= min(x,(i<<2)-1)-i+1;
+            ll cnt= min(x,(i<<2)-1)-(i-1);
             ans+=cnt*chen;
         }
         return ans;
@@ -16,7 +16,7 @@ public:
     long long minOperations(vector<vector<int>>& queries) {
         ll ans=0;
         for (auto &q: queries){
-            ans+=max((sum(q[1])-sum(q[0]-1)+1)/2,sum(q[1])-sum(q[1]-1));
+            ans+=(sum(q[1])-sum(q[0]-1)+1)/2;
         }
         return ans;
     }
