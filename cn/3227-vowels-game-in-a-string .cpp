@@ -6,12 +6,11 @@ class Solution {
 public:
     bool doesAliceWin(string s) {
         set<char>se={'a','e','i','o','u'};
-        int n=0;
         for (auto &i: s){
             if (se.contains(i))
-                ++n;
+                return 1;
         }
-        return n;
+        return 0;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
