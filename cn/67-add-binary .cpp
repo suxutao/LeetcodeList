@@ -5,50 +5,24 @@ using namespace std;
 class Solution {
 public:
     string addBinary(string a, string b) {
-        int na=a.size(),nb=b.size(),jin=0;
-        if (na>nb){
-            swap(a,b);
-            swap(na,nb);
+        string ans;
+        int i = a.size() - 1; // 从右往左遍历 a 和 b
+        int j = b.size() - 1;
+        int carry = 0; // 保存进位
+
+        while (i >= 0 || j >= 0 || carry) {
+            int x = i >= 0 ? a[i] - '0' : 0;
+            int y = j >= 0 ? b[j] - '0' : 0;
+            int sum = x + y + carry; // 计算这一位的加法
+            // 例如 sum = 10，把 '0' 填入答案，把 carry 置为 1
+            ans += sum % 2 + '0';
+            carry = sum / 2;
+            i--;
+            j--;
         }
-        string ans(nb+1,'0');
-        ranges::reverse(a);
-        ranges::reverse(b);
-        a+=string(nb-na,'0');
-        for (int i = 0; i < nb; ++i) {
-            if (a[i]=='0'){
-                if (b[i]=='0'){
-                    ans[i]=jin+'0';
-                    jin=0;
-                }else{
-                    if (jin==0){
-                        ans[i]='1';
-                        jin=0;
-                    }else{
-                        jin=1;
-                    }
-                }
-            }else{
-                if (b[i]=='0'){
-                    if (jin==0){
-                        ans[i]='1';
-                        jin=0;
-                    }else{
-                        jin=1;
-                    }
-                }else{
-                    if (jin==0){
-                        jin=1;
-                    }else{
-                        ans[i]='1';
-                    }
-                }
-            }
-        }
-        ans.back()='0'+jin;
-        while (!ans.empty()&&ans.back()=='0')
-            ans.pop_back();
+
         ranges::reverse(ans);
-        return ans.empty()?"0":ans;
+        return ans;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)
