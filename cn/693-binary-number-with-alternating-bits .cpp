@@ -5,8 +5,8 @@ using namespace std;
 class Solution {
 public:
     bool hasAlternatingBits(int n) {
-        long long a=n>>1^n;
-        return !((a+1)&a);
+        long long a=n^(n>>1);
+        return (a&(a+1))==0;
     }
 };
 //leetcode submit region end(Prohibit modification and deletion)

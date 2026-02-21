@@ -5,22 +5,16 @@ using namespace std;
 class Solution {
 public:
     string addBinary(string a, string b) {
+        int na=a.size()-1,nb=b.size()-1,jin=0;
         string ans;
-        int i = a.size() - 1; // 从右往左遍历 a 和 b
-        int j = b.size() - 1;
-        int carry = 0; // 保存进位
-
-        while (i >= 0 || j >= 0 || carry) {
-            int x = i >= 0 ? a[i] - '0' : 0;
-            int y = j >= 0 ? b[j] - '0' : 0;
-            int sum = x + y + carry; // 计算这一位的加法
-            // 例如 sum = 10，把 '0' 填入答案，把 carry 置为 1
-            ans += sum % 2 + '0';
-            carry = sum / 2;
-            i--;
-            j--;
+        while (na>=0||nb>=0||jin){
+            int A=na>=0?a[na]-'0':0;
+            int B=nb>=0?b[nb]-'0':0;
+            int add=A+B+jin;
+            jin=add/2;
+            ans.push_back('0'+(add&1));
+            na--;nb--;
         }
-
         ranges::reverse(ans);
         return ans;
     }
